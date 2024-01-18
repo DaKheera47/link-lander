@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Link Lander</string>
-    <string name="_9xbud_btn_text">Open with 9xbud.com</string>
-    <string name="_9xplayer_btn_text">Open with 9xplayer.com</string>
-    <string name="link_display">No Link Selected</string>
+    <string name="_9xbud_btn_text">9xbud</string>
+    <string name="_9xplayer_btn_text">9xplayer</string>
+    <string name="link_display">Current Link: No Link Selected</string>
+    <string name="enter_link_here">Enter link here</string>
+    <string name="get_from_clipboard">Get from Clipboard</string>
+
+    <!--numbers-->
+    <string name="btn_margin">4dp</string>
 </resources>

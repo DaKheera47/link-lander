@@ -29,12 +29,10 @@
         </activity>
 
         <!-- Add other activities here if you have any -->
-
     </application>
 
-
     <queries>
-<!--        https://stackoverflow.com/questions/67189934/how-to-get-a-list-of-installed-apps-in-android-11-->
+        <!-- https://stackoverflow.com/questions/67189934/how-to-get-a-list-of-installed-apps-in-android-11-->
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="https" />

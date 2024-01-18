@@ -1,11 +1,14 @@
 package com.dakheera47.linklander
 
 import android.content.ActivityNotFoundException
+import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
     private val FIREFOX_PACKAGE_NAME = "org.mozilla.firefox"
 
-    fun findFirefoxPackageName(): String? {
+    private fun findFirefoxPackageName(): String? {
         val packageManager = packageManager
         val packages = packageManager.getInstalledPackages(0)
 
@@ -28,44 +31,56 @@ class MainActivity : AppCompatActivity() {
         return null // No matching package found
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    class MainActivity : AppCompatActivity() {
 
-        val linkTextView = findViewById<TextView>(R.id.link_display)
-        val _9xbudBtn = findViewById<Button>(R.id._9xbud)
-        val _9xplayerBtn = findViewById<Button>(R.id._9xplayer)
-        var sharedText = ""
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
 
-        // Check if the intent is a share intent
-        if (intent?.action == Intent.ACTION_SEND && intent.type == "text/plain") {
-            sharedText = intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""
-            linkTextView.text = sharedText.ifEmpty { "No Link Selected" }
-        }
+            Log.d("debug", "Gets rendered at least")
 
-        _9xbudBtn.setOnClickListener {
-            // Handle click for 9xbud.com
-            openUrlInSpecificBrowser("https://www.9xbud.com/${sharedText}")
-        }
+//            val linkTextView = findViewById<TextView>(R.id.link_display)
+//            val linkInput = findViewById<EditText>(R.id.link_input)
+//            val clipboardBtn = findViewById<Button>(R.id.get_clipboard)
+            val _9xbudBtn = findViewById<Button>(R.id._9xbud)
+            val _9xplayerBtn = findViewById<Button>(R.id._9xplayer)
 
-        _9xplayerBtn.setOnClickListener {
-            // Handle click for 9xplayer.com
-            openUrlInSpecificBrowser("https://www.9xplayer.com/${sharedText}")
-        }
-
-
-//        // Check if the intent is a share intent
-//        if (intent?.action == Intent.ACTION_SEND && intent.type == "text/plain") {
-//            // Extract the shared text (URL)
-//            val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
+            // Check if the intent is a share intent
+//            val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""
+//            linkTextView.text = sharedText.ifEmpty { "No Link Selected" }
 //
-//            if (sharedText != null) {
-//                // Append your data to the URL
-//                val modifiedUrl = "https://9xbud.com/$sharedText"
-//                // Open the URL in a specific browser
-//                openUrlInSpecificBrowser(modifiedUrl)
+//            // Set shared text to EditText and hide clipboard button if shared text is valid
+//            if (sharedText.isNotEmpty()) {
+//                linkInput.setText(sharedText)
+//                clipboardBtn.visibility = View.GONE
 //            }
-//        }
+//
+//            clipboardBtn.setOnClickListener {
+//                val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+//                val clipData = clipboard.primaryClip
+//                if (clipData != null && clipData.itemCount > 0) {
+//                    val text = clipData.getItemAt(0).text.toString()
+//                    linkInput.setText(text)
+//                    linkTextView.text = text
+//                }
+//            }
+
+            _9xbudBtn.setOnClickListener {
+                val url = UrlHandler.appendParameterToUrl("https://www.9xbud.com/", "linkInput.toString()")
+                Log.d("urlout", url)
+                openUrlInSpecificBrowser(url)
+            }
+
+            _9xplayerBtn.setOnClickListener {
+                val url = "https://www.9xplayer.com/${"linkInput.text"}"
+                openUrlInSpecificBrowser(url)
+            }
+        }
+
+        private fun openUrlInSpecificBrowser(url: String) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        }
     }
 
     private fun openUrlInSpecificBrowser(url: String) {

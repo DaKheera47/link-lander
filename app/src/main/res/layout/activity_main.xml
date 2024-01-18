@@ -4,14 +4,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/link_display"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/link_display"
-        android:textSize="18sp"
-        android:padding="16dp" />
-
     <Button
         android:id="@+id/_9xbud"
         android:layout_width="match_parent"
